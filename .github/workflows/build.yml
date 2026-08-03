@@ -1,0 +1,38 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev libsqlite3-dev zip unzip openjdk-17-jdk git lld autoconf libtool pkg-config
+        pip install "cython<3.0.0" buildozer
+
+    - name: Build with Buildozer
+      run: |
+        buildozer init
+        sed -i 's/requirements = python3,kivy/requirements = python3,kivy==2.2.1,https:\/\/github.com\/kivymd\/KivyMD\/archive\/1.2.0.zip,pillow/' buildozer.spec
+        sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/' buildozer.spec
+        sed -i 's/android.archs = arm64-v8a, armeabi-v7a/android.archs = arm64-v8a/' buildozer.spec
+        buildozer -v android debug
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: InspectionApp-APK
+        path: bin/*.apk
