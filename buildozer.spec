@@ -5,7 +5,7 @@ package.domain = org.haron
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,db
 version = 0.1
-requirements = python3==3.10.12,kivy==2.2.1,kivymd==1.2.0,pillow,materialyoucolor
+requirements = python3,kivy==2.2.1,kivymd==1.2.0,pillow
 orientation = portrait
 osx.kivy_version = 2.2.1
 fullscreen = 0
