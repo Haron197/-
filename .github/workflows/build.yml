@@ -21,7 +21,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev libsqlite3-dev zip unzip openjdk-17-jdk git lld autoconf libtool pkg-config
-        pip install "cython<3.0.0" buildozer
+        pip install "cython<3.0.0" "buildozer<1.6.0"
 
     - name: Build with Buildozer
       run: |
